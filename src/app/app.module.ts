@@ -1,30 +1,95 @@
+import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { AngularFireModule } from 'angularfire2';
+import { RouterModule } from '@angular/router';
+import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 
-import { AppComponent } from './app.component';
+/*
+ * Platform and Environment providers/directives/pipes
+ */
+import { ENV_PROVIDERS } from './environment';
+import { routing } from './app.routing';
 
-export const firebaseConfig = {
-    apiKey: "AIzaSyAV6yJxkRZhdkmDcrg4DuW6PGdrxts_1As",
-    authDomain: "fresas-frescas-iot.firebaseapp.com",
-    databaseURL: "https://fresas-frescas-iot.firebaseio.com",
-    storageBucket: "fresas-frescas-iot.appspot.com",
-    messagingSenderId: "758261002536"
+// App is our top level component
+import { App } from './app.component';
+import { AppState, InternalStateType } from './app.service';
+import { GlobalState } from './global.state';
+import { NgaModule } from './theme/nga.module';
+import { PagesModule } from './pages/pages.module';
+
+// Application wide providers
+const APP_PROVIDERS = [
+  AppState,
+  GlobalState
+];
+
+export type StoreType = {
+  state: InternalStateType,
+  restoreInputValues: () => void,
+  disposeOldHosts: () => void
 };
 
+/**
+ * `AppModule` is the main entry point into Angular2's bootstraping process
+ */
 @NgModule({
+  bootstrap: [App],
   declarations: [
-    AppComponent
+    App
   ],
-  imports: [
+  imports: [ // import Angular's modules
     BrowserModule,
-    FormsModule,
     HttpModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgaModule.forRoot(),
+    PagesModule,
+    routing
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [ // expose our Services and Providers into Angular's dependency injection
+    ENV_PROVIDERS,
+    APP_PROVIDERS
+  ]
 })
-export class AppModule { }
+
+export class AppModule {
+
+  constructor(public appRef: ApplicationRef, public appState: AppState) {
+  }
+
+  hmrOnInit(store: StoreType) {
+    if (!store || !store.state) return;
+    console.log('HMR store', JSON.stringify(store, null, 2));
+    // set state
+    this.appState._state = store.state;
+    // set input values
+    if ('restoreInputValues' in store) {
+      let restoreInputValues = store.restoreInputValues;
+      setTimeout(restoreInputValues);
+    }
+    this.appRef.tick();
+    delete store.state;
+    delete store.restoreInputValues;
+  }
+
+  hmrOnDestroy(store: StoreType) {
+    const cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
+    // save state
+    const state = this.appState._state;
+    store.state = state;
+    // recreate root elements
+    store.disposeOldHosts = createNewHosts(cmpLocation);
+    // save input values
+    store.restoreInputValues = createInputTransfer();
+    // remove styles
+    removeNgStyles();
+  }
+
+  hmrAfterDestroy(store: StoreType) {
+    // display new elements
+    store.disposeOldHosts();
+    delete store.disposeOldHosts;
+  }
+}
