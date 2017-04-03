@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
+import { AngularFireModule } from 'angularfire2';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -30,6 +31,14 @@ export type StoreType = {
   disposeOldHosts: () => void
 };
 
+export const firebaseConfig = {
+  apiKey: "AIzaSyAV6yJxkRZhdkmDcrg4DuW6PGdrxts_1As",
+  authDomain: "fresas-frescas-iot.firebaseapp.com",
+  databaseURL: "https://fresas-frescas-iot.firebaseio.com",
+  storageBucket: "fresas-frescas-iot.appspot.com",
+  messagingSenderId: "758261002536"
+};
+
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
@@ -46,7 +55,8 @@ export type StoreType = {
     ReactiveFormsModule,
     NgaModule.forRoot(),
     PagesModule,
-    routing
+    routing,
+    AngularFireModule.initializeApp(firebaseConfig)
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,

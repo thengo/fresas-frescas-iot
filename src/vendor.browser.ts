@@ -25,6 +25,10 @@ import 'bootstrap-loader';
 import 'font-awesome-sass-loader';
 import 'lodash';
 
+// Firebase
+import 'angularfire2';
+import 'firebase';
+
 if ('production' === ENV) {
   // Production
 } else {
