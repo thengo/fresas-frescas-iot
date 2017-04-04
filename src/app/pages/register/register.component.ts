@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import {EmailValidator, EqualPasswordsValidator} from '../../theme/validators';
+import {AngularFire, AuthProviders, AuthMethods} from 'angularfire2';
+import {Router} from "@angular/router";
 
 import 'style-loader!./register.scss';
 
@@ -16,10 +18,12 @@ export class Register {
   public password:AbstractControl;
   public repeatPassword:AbstractControl;
   public passwords:FormGroup;
+  public af:AngularFire;
 
   public submitted:boolean = false;
 
-  constructor(fb:FormBuilder) {
+  constructor(fb:FormBuilder, af: AngularFire, private router: Router) {
+    this.af = af;
 
     this.form = fb.group({
       'name': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
@@ -37,11 +41,37 @@ export class Register {
     this.repeatPassword = this.passwords.controls['repeatPassword'];
   }
 
-  public onSubmit(values:Object):void {
+  registerUser(email, password) {
+    console.log(email)
+    return this.af.auth.createUser({
+      email: email,
+      password: password
+    });
+  }
+
+  saveUserInfoFromForm(uid, name, email) {
+    return this.af.database.object('registeredUsers/' + uid).set({
+      name: name,
+      email: email,
+    });
+  }
+
+  public onSubmit(values:Object, event):void {
+    event.preventDefault();
     this.submitted = true;
     if (this.form.valid) {
-      // your code goes here
-      // console.log(values);
+      this.registerUser(values['email'], values['passwords']['password']).then((user) => {
+        //console.log(user);
+        //console.log(values);
+        /*this.saveUserInfoFromForm(user.uid, values['name'], values['email']).then(() => {
+          console.log(values);
+          //this.router.navigate(['']);
+        }).catch((error: any) => {
+            console.log(error);
+          });*/
+      }).catch((error: any) => {
+          console.log(error);
+        }); 
     }
   }
 }
