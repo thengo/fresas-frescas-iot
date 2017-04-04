@@ -1,4 +1,12 @@
 <section class="chartist">
+  
+  <div class="row">
+    <h1> My Firebase Data </h1>
+    <div *ngFor= "let item of firebaseData | async">
+      {{item}}
+    </div>
+  </div>
+  
   <div class="row">
     <div class="col-md-6 ">
       <ba-card title="Lines" baCardClass="with-scroll">
