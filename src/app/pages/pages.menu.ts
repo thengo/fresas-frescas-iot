@@ -15,50 +15,6 @@ export const PAGES_MENU = [
         }
       },
       {
-        path: 'editors',
-        data: {
-          menu: {
-            title: 'Editors',
-            icon: 'ion-edit',
-            selected: false,
-            expanded: false,
-            order: 100,
-          }
-        },
-        children: [
-          {
-            path: 'ckeditor',
-            data: {
-              menu: {
-                title: 'CKEditor',
-              }
-            }
-          }
-        ]
-      },
-      {
-        path: 'components',
-        data: {
-          menu: {
-            title: 'Components',
-            icon: 'ion-gear-a',
-            selected: false,
-            expanded: false,
-            order: 250,
-          }
-        },
-        children: [
-          {
-            path: 'treeview',
-            data: {
-              menu: {
-                title: 'Tree View',
-              }
-            }
-          }
-        ]
-      },
-      {
         path: 'charts',
         data: {
           menu: {
@@ -78,60 +34,6 @@ export const PAGES_MENU = [
               }
             }
           }
-        ]
-      },
-      {
-        path: 'ui',
-        data: {
-          menu: {
-            title: 'UI Features',
-            icon: 'ion-android-laptop',
-            selected: false,
-            expanded: false,
-            order: 300,
-          }
-        },
-        children: [
-          {
-            path: 'typography',
-            data: {
-              menu: {
-                title: 'Typography',
-              }
-            }
-          },
-          {
-            path: 'buttons',
-            data: {
-              menu: {
-                title: 'Buttons',
-              }
-            }
-          },
-          {
-            path: 'icons',
-            data: {
-              menu: {
-                title: 'Icons',
-              }
-            }
-          },
-          {
-            path: 'modals',
-            data: {
-              menu: {
-                title: 'Modals',
-              }
-            }
-          },
-          {
-            path: 'grid',
-            data: {
-              menu: {
-                title: 'Grid',
-              }
-            }
-          },
         ]
       },
       {
@@ -211,30 +113,6 @@ export const PAGES_MENU = [
             data: {
               menu: {
                 title: 'Google Maps',
-              }
-            }
-          },
-          {
-            path: 'leafletmaps',
-            data: {
-              menu: {
-                title: 'Leaflet Maps',
-              }
-            }
-          },
-          {
-            path: 'bubblemaps',
-            data: {
-              menu: {
-                title: 'Bubble Maps',
-              }
-            }
-          },
-          {
-            path: 'linemaps',
-            data: {
-              menu: {
-                title: 'Line Maps',
               }
             }
           }
