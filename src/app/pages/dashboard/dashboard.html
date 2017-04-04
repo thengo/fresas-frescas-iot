@@ -4,44 +4,37 @@
   </div>
 </div>
 
-<div class="row">
-  <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-xs-12"
+<div class="btn-group" role="group" style="width: 100%; margin-bottom: 2em">
+  <button type="button" class="btn btn-primary" style="width:33%; font-size: 1.5em;" (click)="changeGraph('graph1')">Left</button>
+  <button type="button" class="btn btn-info" style="width:33%; font-size: 1.5em;" (click)="changeGraph('graph2')">Middle</button>
+  <button type="button" class="btn btn-primary" style="width:33%; font-size: 1.5em; background-color: skyblue" (click)="changeGraph('graph3')">Right</button>
+</div>
+
+<br>
+
+<div class="row" *ngIf="graph1">
+  <ba-card class="col-xlg-12 col-xl-12 col-lg-12 col-sm-12 col-xs-12"
                      title="Acquisition Channels" baCardClass="traffic-panel medium-card">
     <traffic-chart></traffic-chart>
   </ba-card>
+</div>
 
-  <ba-card class="col-xlg-6 col-xl-6 col-lg-12 col-sm-12 col-xs-12"
-           title="Users by Country" baCardClass="medium-card">
-    <users-map></users-map>
+<div class="row" *ngIf="graph2">
+  <ba-card class="col-xlg-12 col-xl-12 col-lg-12 col-sm-12 col-xs-12" title="Something Good">
+        <ba-chartist-chart baChartistChartClass="ct-chart"
+                           baChartistChartType="Line"
+                           [baChartistChartData]="data['biLineData']"
+                           [baChartistChartOptions]="data['biLineOptions']">
+        </ba-chartist-chart>
   </ba-card>
 </div>
 
-<div class="row">
-  <div class="col-xlg-9 col-xl-6 col-lg-6  col-md-12 col-sm-12 col-xs-12">
-    <div class="row">
-      <ba-card class="col-xlg-8 col-xl-12 col-lg-12 col-md-7 col-sm-12 col-xs-12"
-               title="Revenue" baCardClass="medium-card">
-        <line-chart></line-chart>
-      </ba-card>
-    </div>
-  </div>
-
-  <div class="col-xlg-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
-    <ba-card title="Feed"
-             baCardClass="large-card with-scroll feed-panel">
-      <feed></feed>
-    </ba-card>
-  </div>
-
-</div>
-
-<div class="row shift-up">
-  <ba-card class="col-xlg-3 col-lg-6 col-md-12 col-sm-12 col-xs-12" title="To Do List"
-           baCardClass="xmedium-card feed-comply-panel with-scroll todo-panel">
-    <todo></todo>
-  </ba-card>
-  <ba-card class="col-xlg-6 col-lg-6 col-md-12 col-sm-12 col-xs-12" title="Calendar"
-           baCardClass="xmedium-card feed-comply-panel with-scroll calendar-panel">
-    <calendar></calendar>
+<div class="row" *ngIf="graph3">
+  <ba-card class="col-xlg-12 col-xl-12 col-lg-12 col-sm-12 col-xs-12" title="Something Good x2"> 
+        <ba-chartist-chart baChartistChartClass="ct-chart"
+                           baChartistChartType="Bar"
+                           [baChartistChartData]="data['simpleBarData']"
+                           [baChartistChartOptions]="data['simpleBarOptions']">
+        </ba-chartist-chart>
   </ba-card>
 </div>
